@@ -23,7 +23,6 @@ public class StringCalculator {
 				for (String del : delimiters)
 					size += del.length() + 2;
 				numbers = numbers.substring(3 + size);// delete substring with delimeter from string
-				System.out.println(numbers);
 			} else {
 				delimiter = numbers.substring(2, 3);// get delemiter from string
 				numbers = numbers.substring(4);// delete substring with delimeter from string
@@ -38,7 +37,6 @@ public class StringCalculator {
 			for (int i = 1; i < delimiters.size(); i++)
 				delimiter += "|" + delimiters.get(i);
 		}
-		System.out.println(delimiter);
 		numbers = numbers.replaceAll("\n", delimiter);
 		for (String retval : numbers.split(delimiter)) {
 			int a = Integer.parseInt(retval);
@@ -90,6 +88,8 @@ public class StringCalculator {
 			System.out.println(calculator.Add("900,100,5"));
 			System.out.println(calculator.Add("//[;;]\n1;;2;;3"));
 			System.out.println(calculator.Add("//[;][:]\n1;2;3"));
+			System.out.println(calculator.Add("//[;][:]\n1;2:3"));
+			System.out.println(calculator.Add("//[;;][::]\n1;;2::3"));
 		} catch (NegativeException e) {
 			System.out.println(e.getMessage());
 		}
