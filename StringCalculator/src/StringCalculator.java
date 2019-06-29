@@ -1,11 +1,13 @@
 public class StringCalculator {
 
 	int Add(String numbers) {
+		int sum = 0;
 		if (numbers == "")
-			return 0;
-		if (!numbers.contains(","))
-			return Integer.parseInt(numbers);
-		return Character.getNumericValue(numbers.charAt(0)) + Character.getNumericValue(numbers.charAt(2));
+			return sum;
+		for (String retval : numbers.split(",")) {
+			sum += Integer.parseInt(retval);
+		}
+		return sum;
 	}
 
 	public static void main(String args[]) {
@@ -13,5 +15,7 @@ public class StringCalculator {
 		System.out.println(calculator.Add(""));
 		System.out.println(calculator.Add("1"));
 		System.out.println(calculator.Add("1,2"));
+		System.out.println(calculator.Add("1,2,3"));
+		System.out.println(calculator.Add("1,2,3,4"));
 	}
 }
