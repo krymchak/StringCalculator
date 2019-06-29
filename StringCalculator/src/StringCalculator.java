@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringCalculator {
 
@@ -9,8 +11,15 @@ public class StringCalculator {
 		if (numbers == "")
 			return sum;
 		if (numbers.contains("//")) {
-			delimiter = numbers.substring(2, 3); // get delemiter from string
-			numbers = numbers.substring(4); // delete substring with delimeter from string
+			Pattern p = Pattern.compile("\\[(.*?)\\]");
+			Matcher m = p.matcher(numbers);
+			if (m.find()) {
+				delimiter = m.group(1); // get delemiter from string
+				numbers = numbers.substring(5 + delimiter.length());// delete substring with delimeter from string
+			} else {
+				delimiter = numbers.substring(2, 3);// get delemiter from string
+				numbers = numbers.substring(4);// delete substring with delimeter from string
+			}
 		}
 		numbers = numbers.replaceAll("\n", delimiter);
 		for (String retval : numbers.split(delimiter)) {
@@ -61,6 +70,7 @@ public class StringCalculator {
 		try {
 			System.out.println(calculator.Add("1001,2"));
 			System.out.println(calculator.Add("900,100,5"));
+			System.out.println(calculator.Add("//[;;]\n1;;2;;3"));
 		} catch (NegativeException e) {
 			System.out.println(e.getMessage());
 		}
