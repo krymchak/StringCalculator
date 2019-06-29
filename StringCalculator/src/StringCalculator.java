@@ -18,7 +18,8 @@ public class StringCalculator {
 			if (a < 0) {
 				negative.add(a);
 			} else {
-				sum += Integer.parseInt(retval);
+				sum += a;
+				sum = sum % 1001;
 			}
 		}
 		if (!negative.isEmpty()) {
@@ -57,6 +58,11 @@ public class StringCalculator {
 		} catch (NegativeException e) {
 			System.out.println(e.getMessage());
 		}
-
+		try {
+			System.out.println(calculator.Add("1001,2"));
+			System.out.println(calculator.Add("900,100,5"));
+		} catch (NegativeException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
