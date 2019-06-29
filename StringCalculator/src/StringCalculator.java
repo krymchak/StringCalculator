@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+
 public class StringCalculator {
 
-	int Add(String numbers) {
+	int Add(String numbers) throws NegativeException {
 		String delimiter = ",";
+		ArrayList<Integer> negative = new ArrayList<Integer>();
 		int sum = 0;
 		if (numbers == "")
 			return sum;
@@ -11,21 +14,49 @@ public class StringCalculator {
 		}
 		numbers = numbers.replaceAll("\n", delimiter);
 		for (String retval : numbers.split(delimiter)) {
-			sum += Integer.parseInt(retval);
+			int a = Integer.parseInt(retval);
+			if (a < 0) {
+				negative.add(a);
+			} else {
+				sum += Integer.parseInt(retval);
+			}
+		}
+		if (!negative.isEmpty()) {
+			throw new NegativeException("negatives not allowed : " + negative);
 		}
 		return sum;
 	}
 
 	public static void main(String args[]) {
 		StringCalculator calculator = new StringCalculator();
-		System.out.println(calculator.Add(""));
-		System.out.println(calculator.Add("1"));
-		System.out.println(calculator.Add("1,2"));
-		System.out.println(calculator.Add("1,2,3"));
-		System.out.println(calculator.Add("1,2,3,4"));
-		System.out.println(calculator.Add("1,2\n3"));
-		System.out.println(calculator.Add("//;\n1;2;3"));
-		System.out.println(calculator.Add("//;\n1;2\n3"));
+		try {
+			System.out.println(calculator.Add(""));
+			System.out.println(calculator.Add("1"));
+			System.out.println(calculator.Add("1,2"));
+			System.out.println(calculator.Add("1,2,3"));
+			System.out.println(calculator.Add("1,2,3,4"));
+			System.out.println(calculator.Add("1,2\n3"));
+			System.out.println(calculator.Add("//;\n1;2;3"));
+			System.out.println(calculator.Add("//;\n1;2\n3"));
+		} catch (NegativeException e) {
+			System.out.println(e.getMessage());
+		}
+		try {
+			System.out.println(calculator.Add("1,2,-3"));
+			System.out.println(calculator.Add("//;\n1;2\n-3"));
+		} catch (NegativeException e) {
+			System.out.println(e.getMessage());
+		}
+		try {
+			System.out.println(calculator.Add("//;\n1;2\n-3"));
+		} catch (NegativeException e) {
+			System.out.println(e.getMessage());
+		}
+		try {
+			System.out.println(calculator.Add("1,2,-3,-4"));
+		} catch (NegativeException e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 }
