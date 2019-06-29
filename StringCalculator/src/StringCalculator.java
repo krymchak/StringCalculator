@@ -5,7 +5,8 @@ import java.util.regex.Pattern;
 public class StringCalculator {
 
 	int Add(String numbers) throws NegativeException {
-		String delimiter = ",";
+		ArrayList<String> delimiters = new ArrayList<String>();
+		String delimiter = "";
 		ArrayList<Integer> negative = new ArrayList<Integer>();
 		int sum = 0;
 		if (numbers == "")
@@ -14,13 +15,30 @@ public class StringCalculator {
 			Pattern p = Pattern.compile("\\[(.*?)\\]");
 			Matcher m = p.matcher(numbers);
 			if (m.find()) {
-				delimiter = m.group(1); // get delemiter from string
-				numbers = numbers.substring(5 + delimiter.length());// delete substring with delimeter from string
+				delimiters.add(m.group(1)); // get delemiter from string
+				while (m.find()) {
+					delimiters.add(m.group(1)); // get delemiter from string
+				}
+				int size = 0;
+				for (String del : delimiters)
+					size += del.length() + 2;
+				numbers = numbers.substring(3 + size);// delete substring with delimeter from string
+				System.out.println(numbers);
 			} else {
 				delimiter = numbers.substring(2, 3);// get delemiter from string
 				numbers = numbers.substring(4);// delete substring with delimeter from string
 			}
+
 		}
+		if (delimiters.isEmpty() && delimiter == "") {
+			delimiter = ",";
+		}
+		if (!delimiters.isEmpty()) {
+			delimiter = delimiters.get(0);
+			for (int i = 1; i < delimiters.size(); i++)
+				delimiter += "|" + delimiters.get(i);
+		}
+		System.out.println(delimiter);
 		numbers = numbers.replaceAll("\n", delimiter);
 		for (String retval : numbers.split(delimiter)) {
 			int a = Integer.parseInt(retval);
@@ -71,6 +89,7 @@ public class StringCalculator {
 			System.out.println(calculator.Add("1001,2"));
 			System.out.println(calculator.Add("900,100,5"));
 			System.out.println(calculator.Add("//[;;]\n1;;2;;3"));
+			System.out.println(calculator.Add("//[;][:]\n1;2;3"));
 		} catch (NegativeException e) {
 			System.out.println(e.getMessage());
 		}
