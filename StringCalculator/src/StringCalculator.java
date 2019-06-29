@@ -5,34 +5,32 @@ import java.util.regex.Pattern;
 public class StringCalculator {
 
 	int Add(String numbers) throws NegativeException {
-		ArrayList<String> delimiters = new ArrayList<String>();
-		String delimiter = "";
-		ArrayList<Integer> negative = new ArrayList<Integer>();
+		ArrayList<String> delimiters = new ArrayList<String>(); // list of delimiters
+		String delimiter = ""; // one delimiter
+		ArrayList<Integer> negative = new ArrayList<Integer>(); // list of negative integer
 		int sum = 0;
 		if (numbers == "")
 			return sum;
 		if (numbers.contains("//")) {
-			Pattern p = Pattern.compile("\\[(.*?)\\]");
+			Pattern p = Pattern.compile("\\[(.*?)\\]"); // create pattern of delimiter
 			Matcher m = p.matcher(numbers);
 			if (m.find()) {
 				delimiters.add(m.group(1)); // get delemiter from string
 				while (m.find()) {
-					delimiters.add(m.group(1)); // get delemiter from string
+					delimiters.add(m.group(1));
 				}
 				int size = 0;
 				for (String del : delimiters)
 					size += del.length() + 2;
-				numbers = numbers.substring(3 + size);// delete substring with delimeter from string
-			} else {
-				delimiter = numbers.substring(2, 3);// get delemiter from string
-				numbers = numbers.substring(4);// delete substring with delimeter from string
+				numbers = numbers.substring(3 + size); // delete substring with delimeter from string
+			} else { // if delimiter without square brackets
+				delimiter = numbers.substring(2, 3); // get delemiter from string
+				numbers = numbers.substring(4); // delete substring with delimeter from string
 			}
-
-		}
-		if (delimiters.isEmpty() && delimiter == "") {
+		} else {
 			delimiter = ",";
 		}
-		if (!delimiters.isEmpty()) {
+		if (!delimiters.isEmpty()) { // create pattern of delimiters
 			delimiter = delimiters.get(0);
 			for (int i = 1; i < delimiters.size(); i++)
 				delimiter += "|" + delimiters.get(i);
