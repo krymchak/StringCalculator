@@ -4,6 +4,7 @@ public class StringCalculator {
 		int sum = 0;
 		if (numbers == "")
 			return sum;
+		numbers = numbers.replaceAll("\n", ",");
 		for (String retval : numbers.split(",")) {
 			sum += Integer.parseInt(retval);
 		}
@@ -17,5 +18,6 @@ public class StringCalculator {
 		System.out.println(calculator.Add("1,2"));
 		System.out.println(calculator.Add("1,2,3"));
 		System.out.println(calculator.Add("1,2,3,4"));
+		System.out.println(calculator.Add("1,2\n3"));
 	}
 }
